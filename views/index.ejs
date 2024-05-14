@@ -1,0 +1,45 @@
+<%- include("partials/header.ejs") %>
+<div class="container">
+  <h1>Welcome to Cam's Blog App</h1>
+
+  <form action="/" method="POST">
+    <label for="name">Your Name:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="title">Post Title:</label>
+    <input type="text" id="title" name="title" required />
+
+    <label for="content">Post Content:</label>
+    <textarea id="content" name="content" rows="5" required></textarea>
+
+    <!-- Hidden input field for post date (automatically recorded) -->
+    <input
+      type="hidden"
+      id="date"
+      name="date"
+      value="<%= new Date().toISOString() %>"
+    />
+
+    <button type="submit">Create Post</button>
+  </form>
+
+  <h2>Recent Posts:</h2>
+  <ul>
+    <% posts.forEach(post => { %>
+    <li>
+      <h2><%= post.title %></h2>
+      <p>Author: <%= post.name %></p>
+      <p><%= post.content %></p>
+      <p>Date: <%= post.date %></p>
+      <!-- Edit button with correct URL -->
+      <form action="/posts/<%= post.id %>/edit" method="GET">
+        <button type="submit">Edit</button>
+      </form>
+      <form action="/posts/<%= post.id %>/delete" method="POST">
+        <button type="submit">Delete</button>
+      </form>
+    </li>
+    <% }); %>
+  </ul>
+</div>
+<%- include("partials/footer.ejs") %>
